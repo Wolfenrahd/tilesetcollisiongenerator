@@ -76,8 +76,8 @@ func _on_GenerateCollision_pressed():
 		$Tiles.text = "Tiles " + str(tile_count) + "/" + str(tileset.get_tiles_ids().size())
 		tile_count += 1
 		
-		var region_size = tileset.tile_get_region(tile).size / tileset.autotile_get_size(tile)
-		print("cell size: ", tileset.autotile_get_size(tile))
+		var cell_size = tileset.tile_get_region(tile).size / tileset.autotile_get_size(tile)
+		var tile_size = tileset.autotile_get_size(tile)
 		var tile_pos = tileset.tile_get_region(tile).position
 		
 		var tile_texture :Texture = tileset.tile_get_texture(tile)
@@ -87,13 +87,13 @@ func _on_GenerateCollision_pressed():
 		if not $Overwrite.pressed:
 			for shape in tileset.tile_get_shapes(tile):
 				autotile_coords.append(shape["autotile_coord"])
-		for y in region_size.y:
-			for x in region_size.x:
+		for y in cell_size.y:
+			for x in cell_size.x:
 				if Vector2(x, y) in autotile_coords:
 					continue
-#				$Autotile.text = "Cell " + str(x + region_size.x * y) + "/" + str(region_size.x * region_size.y)
+#				$Autotile.text = "Cell " + str(x + cell_size.x * y) + "/" + str(cell_size.x * cell_size.y)
 				var image :Image = tile_texture.get_data()
-				image = image.get_rect(Rect2(Vector2(x, y) * 16 + tile_pos, Vector2(16, 16)))
+				image = image.get_rect(Rect2(Vector2(x, y) * tile_size + tile_pos, tile_size))
 				var texture = ImageTexture.new()
 				texture.create_from_image(image)
 				texture.flags = 0
@@ -109,7 +109,7 @@ func _on_GenerateCollision_pressed():
 				tileset.tile_add_shape(tile, collision, trans, false, Vector2(x, y))
 				$Timer.start()
 #				yield(get_tree(), "idle_frame")
-#		$Autotile.text = "Cell " + str(region_size.x * region_size.y) + "/" + str(region_size.x * region_size.y)
+#		$Autotile.text = "Cell " + str(cell_size.x * cell_size.y) + "/" + str(cell_size.x * cell_size.y)
 		yield(get_tree(), "idle_frame")
 		
 		
@@ -119,7 +119,7 @@ func _on_GenerateCollision_pressed():
 
 func generate_collision(image):
 	
-	var image_size = image.get_size()
+	image_size = image.get_size()
 	
 	start_pos = find_start_pos(image)
 	walker_pos = start_pos
