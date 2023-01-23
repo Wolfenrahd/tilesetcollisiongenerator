@@ -1,0 +1,102 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://addons/tileset_collision_generator/TilesetCollisionGenerator.gd" type="Script" id=1]
+
+[node name="TilesetCollision" type="VBoxContainer"]
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Load" type="Button" parent="."]
+margin_right = 288.0
+margin_bottom = 20.0
+text = "Load Tileset"
+
+[node name="LoadDialog" type="FileDialog" parent="."]
+margin_top = 24.0
+margin_right = 315.0
+margin_bottom = 154.0
+rect_min_size = Vector2( 500, 500 )
+window_title = "Open a File"
+resizable = true
+mode = 0
+filters = PoolStringArray( "*.tres" )
+
+[node name="SaveDialog" type="FileDialog" parent="."]
+margin_top = 24.0
+margin_right = 315.0
+margin_bottom = 154.0
+rect_min_size = Vector2( 500, 500 )
+resizable = true
+filters = PoolStringArray( "*.tres" )
+
+[node name="Export" type="Button" parent="."]
+margin_top = 24.0
+margin_right = 288.0
+margin_bottom = 44.0
+text = "Export (Save As)"
+
+[node name="HSeparator" type="HSeparator" parent="."]
+margin_top = 48.0
+margin_right = 288.0
+margin_bottom = 52.0
+
+[node name="Overwrite" type="CheckButton" parent="."]
+margin_top = 56.0
+margin_right = 288.0
+margin_bottom = 96.0
+pressed = true
+text = "Overwrite Existing Collision Data"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="GenerateCollision" type="Button" parent="."]
+margin_top = 100.0
+margin_right = 288.0
+margin_bottom = 120.0
+text = "Generate Collision"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="."]
+margin_top = 124.0
+margin_right = 288.0
+margin_bottom = 138.0
+
+[node name="Tiles" type="Label" parent="."]
+margin_top = 142.0
+margin_right = 288.0
+margin_bottom = 156.0
+
+[node name="Autotile" type="Label" parent="."]
+margin_top = 160.0
+margin_right = 288.0
+margin_bottom = 174.0
+
+[node name="TextureRect" type="TextureRect" parent="."]
+margin_top = 178.0
+margin_right = 288.0
+margin_bottom = 178.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+expand = true
+stretch_mode = 6
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Line2D" type="Line2D" parent="TextureRect"]
+width = 2.0
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
+[connection signal="pressed" from="Load" to="." method="_on_Load_pressed"]
+[connection signal="file_selected" from="LoadDialog" to="." method="_on_LoadDialog_file_selected"]
+[connection signal="file_selected" from="SaveDialog" to="." method="_on_SaveDialog_file_selected"]
+[connection signal="pressed" from="Export" to="." method="_on_Export_pressed"]
+[connection signal="pressed" from="GenerateCollision" to="." method="_on_GenerateCollision_pressed"]
